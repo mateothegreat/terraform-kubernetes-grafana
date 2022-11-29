@@ -45,34 +45,10 @@ resource "kubernetes_deployment" "grafana" {
 
                 node_selector = var.node_selector
 
-                #                init_container {
-                #
-                #                    name    = "permissions"
-                #                    image   = "busybox"
-                #                    command = [ "sh", "-c", "chown -R 472:472 /var/lib/grafana" ]
-                #
-                #                    volume_mount {
-                #
-                #                        name       = "data"
-                #                        mount_path = "/data"
-                #
-                #                    }
-                #
-                #                }
-
                 container {
 
                     name  = "grafana"
                     image = var.image
-
-
-                    #                    security_context {
-                    #
-                    #                        run_as_user  = 472
-                    #                        run_as_group = 472
-                    #
-                    #                    }
-
 
                     resources {
 
@@ -131,6 +107,19 @@ resource "kubernetes_deployment" "grafana" {
 
                         name       = "data"
                         mount_path = "/data"
+
+                    }
+
+                    dynamic "env" {
+
+                        for_each = var.environment_variables
+
+                        content {
+
+                            name  = env.key
+                            value = env.value
+
+                        }
 
                     }
 

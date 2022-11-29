@@ -62,3 +62,15 @@ variable "limit_memory" {
     default     = "500Mi"
 
 }
+
+variable "environment_variables" {
+
+    type = list(object({
+        name  = string
+        value = string
+    }))
+
+    description = "Environment variables for the deployment"
+    default     = [ ]
+
+}
