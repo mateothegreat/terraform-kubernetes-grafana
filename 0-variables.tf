@@ -65,12 +65,8 @@ variable "limit_memory" {
 
 variable "environment_variables" {
 
-    type = list(object({
-        name  = string
-        value = string
-    }))
-
+    type        = map(string)
     description = "Environment variables for the deployment"
-    default     = [ ]
+    default     = null
 
 }
